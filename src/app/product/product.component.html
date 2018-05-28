@@ -1,0 +1,73 @@
+
+<div class="container center-block">
+	<h1 class="help-block text-center" >Item Information</h1>
+	<div class="col-md-10 col-md-offset-1">
+		<div class="panel panel-default panel-table">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col col-xs-6 text-right">
+						<button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" (click)=reset()>Create New</button>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped table-bordered table-list">
+					<thead>
+						<tr>	
+							<th class="hidden-xs">ID</th>
+							<th>Name</th>
+							<th>Price</th>
+							<th><em class="fa fa-cog"></em></th>
+						</tr> 
+					</thead>
+					<tbody *ngFor="let item of data | async; let i =index">
+						<tr>
+							<td class="hidden-xs">{{i+1}}</td>
+							<td>{{item.record.name}}</td>
+							<td>{{item.record.price}}</td>
+							<td >
+								<button class="btn btn-info" type="button" data-toggle="modal" data-target="#exampleModalLong" (click)="getItem(item)"><em class="fa fa-eye"></em></button>
+								<button class="btn btn-default" type="button" data-toggle="modal" data-target="#exampleModalLong"  (click)="update(item,item.id)"><em class="fa fa-pencil"></em></button> 
+								<a class="btn btn-danger" (click)="delete(item.id)"><em class="fa fa-trash"></em></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>	
+	
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Add Item</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form #myfrom="ngForm" (ngSubmit)="onSubmit(myform)">
+						<input type="hidden" name="id" [(ngModel)]="id" class="form-control">
+						<div class="form-group">
+							<label >Name:-</label>
+							<input type="text" name="name" [(ngModel)]="name" placeholder="Enter Name" [disabled]="a">
+						</div>
+						<div class="form-group">
+							<label >Price:-</label>
+							<input type="number" name="price" [(ngModel)]="price" placeholder="Enter Price">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<input type="submit" class="btn btn-primary" value="Add New" (click)="add(id)">
+				</div>
+			</div>
+		</div>
+	</div>
+	<h1>Specific Post</h1>
+	<h3>{{(item|async)?.name}}</h3>
+	<h3>{{(item|async)?.price}}</h3>
+</div>
